@@ -2,6 +2,7 @@
 bind = "127.0.0.1"
 port = 8317
 log_filter = "info"
+# HTTP request bodies are limited to 200 MiB (fixed in the server, not configurable here).
 
 [auth]
 callback_bind_host = "127.0.0.1"

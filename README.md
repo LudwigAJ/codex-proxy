@@ -398,6 +398,9 @@ start. See [`config.example.toml`](./config.example.toml) for local/runtime
 defaults and [`config.docker.toml`](./config.docker.toml) for the container
 defaults baked into the Docker image.
 
+HTTP request bodies are limited to 200 MiB. This is a fixed server limit and
+is not currently configurable through `config.toml`.
+
 ### Key settings
 
 ```toml

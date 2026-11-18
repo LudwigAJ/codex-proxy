@@ -26,7 +26,7 @@ use anyhow::{Context, Result};
 use axum::{
     Json, Router,
     body::Bytes,
-    extract::{Path, State},
+    extract::{DefaultBodyLimit, Path, State},
     http::{HeaderMap, StatusCode, header::AUTHORIZATION},
     response::{IntoResponse, Response},
     routing::{get, post},
@@ -46,6 +46,9 @@ use crate::{
 use self::chat_completions::forward_chat_completions;
 use self::forwarding::{ForwardingState, forward_responses, forward_responses_compact};
 use self::websocket::forward_v1_responses_websocket;
+
+/// Maximum size of a buffered HTTP request body (200 MiB).
+const MAX_REQUEST_BODY_BYTES: usize = 200 * 1024 * 1024;
 
 /// Shared state cloned into every Axum handler via [`axum::extract::State`].
 ///
@@ -119,6 +122,7 @@ pub fn router(state: ProxyAppState) -> Router {
         )
         .route("/v1/responses/compact", post(forward_v1_responses_compact))
         .route("/v1/chat/completions", post(forward_v1_chat_completions))
+        .layer(DefaultBodyLimit::max(MAX_REQUEST_BODY_BYTES))
         .layer(CorsLayer::permissive())
         .layer(TraceLayer::new_for_http())
         .with_state(state)

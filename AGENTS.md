@@ -147,6 +147,7 @@ first run. See `config.example.toml` for an annotated reference.
 | `server.bind` | `127.0.0.1` | Proxy listen host |
 | `server.port` | `8317` | Proxy listen port |
 | `server.log_filter` | `info` | tracing filter (same as RUST_LOG) |
+| HTTP request body limit | `200 MiB` | Fixed in `src/proxy/mod.rs` |
 | `auth.callback_bind_host` | `127.0.0.1` | OAuth callback listener bind host for local runs |
 | `auth.redirect_host` | `localhost` | Host embedded in the OAuth redirect URI |
 | `auth.callback_port` | `1455` | OAuth callback listener port |
